@@ -1,2 +1,2 @@
-# parana-game-engine
+# pgengine
 A game engine developed using Python and OpenGL.
