@@ -12,24 +12,29 @@ class Shader:
 
         self.__create_program()
 
-    def __create_shader(self, shaderCodePath, shaderType):
-        shader_code = self.__get_shader_code(shaderCodePath)
+        self.__link_program()
+
+    def __create_shader(self, shader_code_path, shader_type):
+        shader_code = self.__get_shader_code(shader_code_path)
 
         # specify required OpenGL/GLSL version
         shader_code = '#version 330\n' + shader_code
 
         # create empty shader object and return reference value
-        shader_ref = glCreateShader(shaderType)
+        shader_ref = glCreateShader(shader_type)
         
         # stores the source code in the shader
         glShaderSource(shader_ref, shader_code)
 
         return shader_ref
 
-    def __get_shader_code(self, shaderCodePath):
-        shader_code
-        with open(shaderCodePath) as f:
-            shader_code = f.readlines()
+    def __get_shader_code(self, shader_code_path):
+        shader_code = ''
+        with open(shader_code_path) as f:
+            shader_code_arr = f.readlines()
+
+            for item in shader_code_arr:
+                shader_code += item
         
         return shader_code
 
@@ -74,6 +79,9 @@ class Shader:
             # free memory used to store program
             glDeleteProgram(self.__program_ref)
             # convert byte string to character string
-            error_message = '\n' + error_message.decode('utf-8')
+            error_message = '\n' + error_message
             # raise exception: halt application and print error message
             raise Exception(error_message)
+
+    def use(self):
+        glUseProgram(self.__program_ref)
